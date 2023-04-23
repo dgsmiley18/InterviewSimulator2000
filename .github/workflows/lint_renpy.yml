@@ -1,9 +1,27 @@
-- name: Lint Ren'Py Project
-  # You may pin to the exact commit or the version.
-  # uses: ProjectAliceDev/renpy-lint-action@9bfec9638097636e1f2d9de859130dac0225ec55
-  uses: ProjectAliceDev/renpy-lint-action@v1.1.2
-  with:
-    # The version of the Ren'Py SDK to use
-    sdk-version: 8.0.3
-    # The path to the directory where the project exists
-    project-dir: InterviewSimulator2000/
+name: Ren'Py CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install Ren'Py
+      run: |
+        pip install renpy
+
+    - name: Lint Ren'Py project
+      run: |
+        renpy lint InterviewSimulator2000/InterviewSimulator2000/game/
+
+    - name: Run Ren'Py project
+      run: |
+        renpy InterviewSimulator2000/InterviewSimulator2000/game/
