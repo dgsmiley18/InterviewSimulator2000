@@ -1,8 +1,8 @@
 # InterviewSimulator2000
 # Descrição
 
-Este jogo visual novel educacional sobre entrevista de emprego foi criado para ajudar os jogadores a desenvolverem habilidades de entrevista e a se prepararem para o processo seletivo. Com uma narrativa envolvente e escolhas interativas, os jogadores terão a oportunidade de assumir o papel de um candidato em uma série de entrevistas desafiadoras.
-Funcionalidades
+InterviewSimulator2000 foi criado para ajudar os jogadores a desenvolverem habilidades de entrevista e a se prepararem para o processo seletivo. Com uma narrativa envolvente e escolhas interativas, os jogadores terão a oportunidade de assumir o papel de um candidato em uma série de entrevistas desafiadoras.
+# O que você vai encontrar neste jogo
 
     Narrativa Cativante: Desfrute de uma história imersiva e envolvente, repleta de personagens interessantes e reviravoltas emocionantes.
 
