@@ -1,0 +1,92 @@
+name: Build and Release VN Project
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  RELEASE_NAME: InterviewSimulator2000-1.0
+  WIN_ZIP: ${{ env.RELEASE_NAME }}-win.zip
+  PC_ZIP: ${{ env.RELEASE_NAME }}-pc.zip
+  MARKET_ZIP: ${{ env.RELEASE_NAME }}-market.zip
+  MAC_ZIP: ${{ env.RELEASE_NAME }}-mac.zip
+  LINUX_TAR_BZ2: ${{ env.RELEASE_NAME }}-linux.tar.bz2
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Ren'Py SDK
+        run: |
+          wget -q https://www.renpy.org/dl/7.4.8/renpy-7.4.8-sdk.tar.bz2
+          tar -xf renpy-7.4.8-sdk.tar.bz2
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build VN project
+        run: |
+          ./renpy.sh launcher distribute ./InterviewSimulator2000
+          mv ./InterviewSimulator2000-1.0-dists/* .
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.RELEASE_NAME }}
+          release_name: ${{ env.RELEASE_NAME }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Windows zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.WIN_ZIP }}
+          asset_name: ${{ env.WIN_ZIP }}
+          asset_content_type: application/zip
+
+      - name: Upload PC zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.PC_ZIP }}
+          asset_name: ${{ env.PC_ZIP }}
+          asset_content_type: application/zip
+
+      - name: Upload Market zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.MARKET_ZIP }}
+          asset_name: ${{ env.MARKET_ZIP }}
+          asset_content_type: application/zip
+
+      - name: Upload Mac zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.MAC_ZIP }}
+          asset_name: ${{ env.MAC_ZIP
