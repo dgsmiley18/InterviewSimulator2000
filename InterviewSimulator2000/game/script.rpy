@@ -3,7 +3,9 @@
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
-define e = Character("Eileen")
+define eil = Character("Eileen")
+image BG FutonRoom = ("images/Futon_Room.png")
+image entrevistadora = ("images/entrevistadora.png")
 
 
 # The game starts here.
@@ -14,19 +16,21 @@ label start:
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
 
-    scene bg room
+    scene BG FutonRoom with dissolve
+    play sound "audio/vntrack01.mp3"
 
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
 
-    show eileen happy
+    show entrevistadora with dissolve:
+        xzoom 0.5 yzoom 0.5
 
     # These display lines of dialogue.
 
-    e "You've created a new Ren'Py game."
+    eil "You've created a new Ren'Py game."
 
-    e "Once you add a story, pictures, and music, you can release it to the world!"
+    eil "Once you add a story, pictures, and music, you can release it to the world!"
 
     # This ends the game.
 
